@@ -1,0 +1,52 @@
+label,mean,group,cat,notable,n
+Green Mediterranean diet,-0.0866,dec,lon,0,87
+Healthy-guidelines diet (control arm),-0.0415,ns,ref,0,88
+Mediterranean diet,-0.0505,dec,lon,0,81
+Gastric bypass,-0.1398,dec,dis,0,12
+Kidney dialysis,0.2699,inc,dis,0,12
+Kidney transplant,-0.1226,ns,ns,0,12
+Diet + exercise,-0.0115,ns,ns,1,60
+Low-carb diet,-0.0179,ns,ns,0,60
+"Low-carb diet, no exercise",-0.0489,ns,ns,0,30
+Low-carb diet + exercise,0.0073,ns,ns,0,30
+Low-fat diet (control arm),-0.0385,ns,ref,0,60
+"Low-fat diet, no exercise (control arm)",-0.0495,dec,ref,0,30
+Low-fat diet + exercise,-0.0288,ns,ns,0,30
+Anti-TNF therapy (rheumatoid arthritis),-0.1872,dec,dis,0,51
+"Anti-TNF therapy (IBD, 2 wk)",-0.2341,dec,dis,0,26
+"Anti-TNF therapy (IBD, 6 wk)",-0.299,dec,dis,0,24
+Exercise,-0.0242,ns,ns,1,47
+Smoking cessation,-0.0949,ns,ns,0,8
+Umbilical cord blood transfusion,-0.0107,ns,ns,0,18
+Antiretroviral therapy (HIV),-0.35,dec,dis,0,183
+Caloric restriction / intermittent fasting,-0.0232,ns,ns,1,58
+Multi-omic supplement (MOFs),0.0266,ns,ns,0,10
+Folate,0.0859,ns,ns,0,12
+Vitamin B12 + folate,-0.0296,ns,ns,0,44
+Omega-3 fatty acids,-0.0323,ns,ns,0,34
+"Metformin (HIV+, monocytes)",-0.2895,dec,dis,0,6
+AC11 (cat's-claw) supplement,-0.1825,ns,ns,0,25
+Copaiba essential-oil supplement,-0.0496,dec,lon,0,50
+Buckwheat extract supplement,0.0335,inc,lon,0,41
+Follistatin gene therapy,0.1076,ns,ns,0,16
+HBOT,-0.14,ns,ns,0,12
+HBOT high pressure,-0.1969,ns,ns,0,5
+HBOT mild pressure (sham),-0.0999,ns,ref,0,7
+HBT,0.0334,ns,ns,0,7
+HBT high pressure,0.1136,ns,ns,0,5
+HBT mild pressure (sham),-0.1649,ns,ref,0,2
+Ketamine,-0.0859,dec,lon,0,20
+Human-milk supplement (Trulacta),-0.0999,dec,lon,0,19
+Lavender oil supplement,-0.032,ns,ns,0,33
+Omnivorous diet (control arm),0.0106,ns,ref,0,12
+Rapamycin (cohort A),0.0243,ns,ns,1,9
+Rapamycin (cohort C),0.0883,inc,lon,0,7
+Semaglutide,0.0562,ns,ns,1,11
+SRW supplement 1,0.0311,ns,ns,0,41
+SRW supplement 2,0.0243,ns,ns,0,39
+Vegan diet,-0.0918,dec,lon,0,13
+DQ senolytics 1,0.1441,ns,ns,0,19
+DQ senolytics 2,0.1067,ns,ns,0,19
+DQF senolytics,-0.0111,ns,ns,0,18
+DQ senolytics 3,-0.1384,ns,ns,0,9
+DQ + DQF senolytics,-0.1275,ns,ns,0,9
