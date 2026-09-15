@@ -29,16 +29,11 @@ Supplementary Table 1, strata re-derived from the source file. Full log: replica
 The rule stated: *"If Q4.5 shows the MDE far exceeds published effects, argument 4 is downgraded to
 'no evidence of effect, and underpowered' and the CI-exclusion claim is dropped."*
 
-The CI-exclusion sentence has been removed from the manuscript. It now reads:
-
-> All are null: the pooled contrast is +0.001 for PCGrimAge and +0.008 for SystemsAge, against
-> published pre-post estimates of −0.078 and −0.059 for the same clocks.
-
-This keeps the descriptive comparison (point estimates near zero versus the published effects), which
-is unimpeachable, and drops the inferential claim, which held only under fixed-effect z-based
-intervals. The paragraph's existing caveat — "Three contrasts cannot exclude modest effects. They
-are, however, the estimand that responsiveness to an intervention requires" — already states the
-power limitation honestly, and is now the paragraph's correct terminus.
+The CI-exclusion claim was dropped. The letter makes no claim that the confidence intervals exclude
+the article's published estimates, and the checks that tested it have been removed from
+`verify_all.py`. What the letter retains is the descriptive result, that the treated-minus-control
+difference is null for the recommended clocks in the three trials that permit it to be computed.
+That result is unimpeachable; the inferential claim held only under fixed-effect z-based intervals.
 
 ## Net assessment
 

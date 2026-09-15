@@ -20,21 +20,21 @@ SupplementaryTable1_Sehgal2026.xlsx
 
 ```bash
 pip install pandas numpy scipy openpyxl statsmodels
-python3 verify_all.py          # 46 named checks, expect 0 failures
+python3 verify_all.py          # 41 named checks, expect 0 failures
 python3 make_figure_data.py    # regenerates the figure inputs
 Rscript make_figure1.R         # Figure 1
 Rscript make_extended_data_fig1.R   # Extended Data Fig. 1
 ```
 
 `verify_all.py` is the entry point. It re-derives the article's published counts, the strata, the
-randomized differences and the exercise contrasts, and fails loudly if any of them moves.
+randomized differences and the exercise contrasts, and fails loudly if any of them moves. Every check
+corresponds to a claim made in the letter; nothing is verified here that the letter does not assert.
 
 ## What each file does
 
 | File | Purpose |
 |---|---|
-| `verify_all.py` | 46 named checks covering every numerical claim in the letter |
-| `reanalysis.py` | Arm-level metric across the 16 prominent clocks; the article's Fig. 3d verdicts |
+| `verify_all.py` | 41 named checks covering every numerical claim in the letter |
 | `league_table.py` | All 51 arms ranked on that metric, with the article's own verdict per arm |
 | `randomized_contrasts.py` | Treated-minus-control differences in the trials that permit them |
 | `make_figure_data.py` | Regenerates the figure inputs; verifies the curated panel-a file against the source |
@@ -53,9 +53,9 @@ effect sizes, sample sizes and verdicts are checked against the source table by
 software stack (pandas / scipy / statsmodels rather than the hand-rolled t-distribution code used
 elsewhere here).
 
-- `PREREGISTRATION.md` — questions and predictions, written **before** the analysis was run
-- `rep_analysis.py` — the analysis
-- `FINDINGS.md` — results against the predictions
+- `PREREGISTRATION.md`: questions and predictions, written **before** the analysis was run
+- `rep_analysis.py`: the analysis
+- `FINDINGS.md`: results against the predictions
 
 Sixteen of eighteen predictions were confirmed and **two failed**. Both failures concerned the
 randomized-difference argument: with three trials the minimum detectable difference exceeds the

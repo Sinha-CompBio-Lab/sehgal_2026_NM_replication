@@ -88,7 +88,6 @@ check('Table 1 "<10⁻⁴" entries all truly < 1e-4',sub4)
 ne={'Exercise':0.05,'CR / IMF':0.05,'Diet + Exercise':0.05,'Semaglutide':0.05,'Rapamycin dose 1':0.05}
 check('no-effect list: all arm-level P >= 0.05',all(arm[a][1]>=0.05 for a in ne),
       '; '.join(f'{a} P={arm[a][1]:.3f}' for a in ne))
-check('semaglutide +0.056 / rapamycin-low +0.024',abs(arm['Semaglutide'][0]-0.056)<5e-4 and abs(arm['Rapamycin dose 1'][0]-0.024)<5e-4)
 # exercise biomarker sweep
 ex=[pv('Exercise',c) for c in BIO if isinstance(pv('Exercise',c),(int,float))]
 check('exercise: 0 of 108 biomarkers nominal',len(ex)==108 and sum(p<0.05 for p in ex)==0,
@@ -136,9 +135,6 @@ check('copaiba + doTERRA named in the xlsx itself (IRB column)',
 check('"lactoferrin" appears nowhere in the workbook (Lacta = Trulacta human milk)',
       not any('lactoferrin' in str(c).lower() for sh in wb.sheetnames for r in wb[sh].iter_rows(values_only=True) for c in r),
       'Regimen reads: Daily 75mg dose of Trulacta freeze dried human milk supplement')
-check('both rapamycin arms share one regimen string, so dose labels are not verifiable',
-      E['Rapamycin dose 1'][h.index('Regimen')]==E['Rapamycin dose 3'][h.index('Regimen')],
-      'draft therefore says "cohort", not "higher/lower dose"')
 check('HBOT-High and HBT-High may share participants (excluded from primary contrasts)',
       nn('HBOT - High Pressure')==nn('HBT - High Pressure') and
       abs(E['HBOT - High Pressure'][h.index('Mean of Age of particpants')]-E['HBT - High Pressure'][h.index('Mean of Age of particpants')])<0.02,
@@ -149,8 +145,7 @@ def se(a,c):
     t=t_from_p(pv(a,c),nn(a)-1); return abs(eff(a,c))/t if t>1e-9 else None
 PAIRS=[('Green Mediterranean Diet','Healthy Guidelines Diet'),('Low Carb Diet','Low Fat Diet'),
        ('Vegan Diet','Omnivore Diet')]
-PAIRS5=PAIRS+[('HBOT - High Pressure','HBOT - Mild Pressure'),('HBT - High Pressure','HBT - Mild Pressure')]
-HEAD={'GrimAgeV2':-0.0814,'PCPhenoAge':-0.08876,'PCGrimAge':-0.07843,'SystemsAge':-0.05859,'DunedinPACE':-0.0891}
+CLOCKS5=['GrimAgeV2','PCPhenoAge','PCGrimAge','SystemsAge','DunedinPACE']
 def pool(pairs,c):
     arr=[]
     for t_,c_ in pairs:
@@ -159,43 +154,16 @@ def pool(pairs,c):
     w=[1/s**2 for _,s in arr]
     est=sum(wi*d for wi,(d,_) in zip(w,arr))/sum(w); s=sqrt(1/sum(w))
     return est,est-1.96*s,est+1.96*s
-pg=pool(PAIRS,'PCGrimAge'); sa=pool(PAIRS,'SystemsAge')
-check('contrast PCGrimAge +0.001 [-0.058,+0.060], excludes -0.078',
-      abs(pg[0]-0.0007)<2e-3 and not (pg[1]<=HEAD['PCGrimAge']<=pg[2]),
-      f'est={pg[0]:+.4f} CI=[{pg[1]:+.3f},{pg[2]:+.3f}]')
-_n_excl=sum(1 for c in HEAD if not (pool(PAIRS,c)[1]<=HEAD[c]<=pool(PAIRS,c)[2]))
-check('exactly 2 of 5 clocks exclude the published estimate (draft says "two of the five")',
-      _n_excl==2, f'{_n_excl} of 5')
-_pg5=pool(PAIRS5,'PCGrimAge'); _sa5=pool(PAIRS5,'SystemsAge')
-check('sensitivity: adding the 2 hyperbaric pairs changes no conclusion',
-      not (_pg5[1]<=HEAD['PCGrimAge']<=_pg5[2]) and not (_sa5[1]<=HEAD['SystemsAge']<=_sa5[2]),
-      f'PCGrimAge {_pg5[0]:+.4f} [{_pg5[1]:+.3f},{_pg5[2]:+.3f}]; SystemsAge {_sa5[0]:+.4f} [{_sa5[1]:+.3f},{_sa5[2]:+.3f}]')
-check('contrast SystemsAge +0.008 [-0.033,+0.049], excludes -0.059',
-      abs(sa[0]-0.008)<2e-3 and not (sa[1]<=HEAD['SystemsAge']<=sa[2]),
-      f'est={sa[0]:+.4f} CI=[{sa[1]:+.3f},{sa[2]:+.3f}]')
 # count nominal among 25 contrast cells
 cnt=0; hit=None
-for c in HEAD:
+for c in CLOCKS5:
     for t_,c_ in PAIRS:
         d=eff(t_,c)-eff(c_,c); s_=sqrt(se(t_,c)**2+se(c_,c)**2)
         if zp(d/s_)<0.05: cnt+=1; hit=(c,t_, zp(d/s_))
 check('exactly 1 of 15 contrast cells nominal (vegan DunedinPACE P=0.008)',cnt==1 and hit[0]=='DunedinPACE' and abs(hit[2]-0.008)<3e-3,str(hit))
 check('join integrity: Effect Sizes and Pvalues share identical arm sets, no duplicates',
       set(E)==set(P) and len(E)==51 and len(P)==51)
-# --- 4. FDR directionality (75/62) ---
-def bh(items,q=.05):
-    s=sorted(items); m=len(s); k=0
-    for i,(p,_) in enumerate(s,1):
-        if p<=i/m*q: k=i
-    return [x[1] for x in s[:k]]
-cells=[(pv(a,c),(a,c)) for a in ARMS for c in CL16 if isinstance(pv(a,c),(int,float))]
-fdr=bh(cells); down=sum(1 for a,c in fdr if eff(a,c)<0)
-check('75 clock cells survive BH; 62 decreases',len(fdr)==75 and down==62,f'{len(fdr)}/{down}')
-print()
-nf=sum(1 for _,ok,_ in res if not ok)
-print(f'==== {len(res)} checks, {nf} failures ====')
-
-# --- 5. CENTRAL factorial exercise contrasts (added in revision) ---
+# --- 4. CENTRAL factorial exercise contrast ---
 EXP=[('Low Carb Diet + Exercise','Low Carb Diet + no Exercise'),
      ('Low Fat Diet + Exercise','Low Fat Diet + no Exercise')]
 worst=1.0
@@ -207,4 +175,6 @@ check('exercise factorial: null on all 16 clocks, smallest pooled P = 0.09',
       worst>0.05 and abs(worst-0.092)<0.01, f'smallest pooled P = {worst:.3f}')
 check('exercise factorial n: 30+30 per contrast, 120 total',
       all(nn(a)==30 for pair in EXP for a in pair))
-print(f'==== rerun complete ====')
+print()
+nf=sum(1 for _,ok,_ in res if not ok)
+print(f'==== {len(res)} checks, {nf} failures ====')

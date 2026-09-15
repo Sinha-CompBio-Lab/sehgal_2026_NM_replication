@@ -15,11 +15,9 @@ Direct link. This is the file we used, byte-identical to `SupplementaryTable1_Se
 
     https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41591-026-04562-9/MediaObjects/41591_2026_4562_MOESM4_ESM.xlsx
 
-Also useful:
+Also needed:
 - **Supplementary Table 20** (MOESM23): their multiple-testing thresholds. This is where P < 0.00625
   (Fig. 3d), P < 0.00833 (Fig. 4b/5b) and P < 0.0125 (Fig. 5c) come from.
-- **Supplementary Table 7** (MOESM10): their published pooled per-clock effects.
-- **Peer review file** (MOESM2): the three referee reports and both author rebuttals.
 
 Numbering rule: Supplementary Table N = MOESM(N+3).
 
@@ -76,10 +74,9 @@ To check the exercise claim directly: on the "Pvalues" sheet, take the `Exercise
 
 ## 5. Or run our script
 
-    cd dnam_clock_reanalysis
     python3 verify_all.py
 
-42 named checks, each printing PASS or FAIL with the computed value. It re-derives every number in
+41 named checks, each printing PASS or FAIL with the computed value. It re-derives every number in
 the letter from the .xlsx, including the reference values that test the t-distribution code itself.
 `league_table.py` prints the full 51-arm ranking; `randomized_contrasts.py` prints the contrast
 analysis with confidence intervals.
@@ -94,7 +91,12 @@ analysis with confidence intervals.
 2. **"Lacta Supplement" is not lactoferrin.** Its Regimen field reads "Daily 75mg dose of Trulacta
    freeze dried human milk supplement". The word lactoferrin appears nowhere in the workbook.
 
-## 7. The one thing you cannot check from the .xlsx
+## 7. What this file cannot settle
 
-The verbatim quotations from the article's Results, Discussion and Methods. Those are in the article
-text; search the HTML for each quoted phrase before submission.
+Two claims in the letter do not follow from Supplementary Table 1 alone.
+
+- The **verbatim quotations** from the article's Results, Discussion and Methods are in the article
+  text, not the spreadsheet. Search the published HTML for each quoted phrase.
+- The statement that **no effect data for the four control and nine pro-aging-event datasets of
+  Fig. 3a appear in any supplementary table** requires all twenty released tables, not this one.
+  Download them from the article page and search each for those dataset identifiers.
